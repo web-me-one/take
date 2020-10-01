@@ -1,9 +1,22 @@
 #
 import functools
+from aldb import db
+from aldb import info
 from flask import ( Blueprint, flash, g, redirect, render_template, request, session, url_for )
 from werkzeug.security import check_password_hash, generate_password_hash
 from flaskr.db import get_db
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+#mine
+@bp.route('/getcred', methods=('GET', 'POST'))
+def getcred():
+    if request.method == 'POST':
+        username1 = request.form['username']
+        password1 = request.form['password']
+        data = info(username=username1, password=password1)
+        db.session.add(data)
+        db.session.commit()
+    return render_template('auth/getcred.html')
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
