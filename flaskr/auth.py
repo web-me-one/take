@@ -1,11 +1,23 @@
 #
 import functools
-from aldb import db
-from aldb import info
-from flask import ( Blueprint, flash, g, redirect, render_template, request, session, url_for )
+import os
+from   flask_sqlalchemy import SQLAlchemy
+
+from flask import ( Blueprint, flash, g, redirect, render_template, request, session, url_for,Flask )
 from werkzeug.security import check_password_hash, generate_password_hash
 from flaskr.db import get_db
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+app= Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///test.db' #'postgres://yyilkblbrykehy:84cf0c8052645f4de0c2d7c64dce1ae3c781581f3358eae5f0efddd7c0de00c1@ec2-35-174-127-63.compute-1.amazonaws.com:5432/d8n77erpfco80f'#os.environ.get('DATABASE_URL')#
+db =SQLAlchemy(app)
+
+class  info(db.Model):
+    __tablename__='info'
+    id = db.Column('id', db.Integer, primary_key=True)
+    username=db.Column(db.String(80))
+    password = db.Column(db.String(120))
+
 
 #mine
 @bp.route('/getcred', methods=('GET', 'POST'))
