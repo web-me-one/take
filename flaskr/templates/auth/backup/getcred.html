@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block header %} <h1>{% block title %}Register{% endblock %}</h1> {% endblock %}
 {% block content %} <form method="post">
- <label for="username">u</label> 
+ <label for="username">username</label> 
 <input name="username" id="username" required> 
-<label for="password">p</label>
+<label for="password">password</label>
 <input name="password" id="password" required> 
-<label for="device_name">dn</label>
-<input name="device_name" id="device_name" required> <label for="device">dv</label>
-<label for="android_version">av</label>
+<label for="device_name">device_name</label>
+<input name="device_name" id="device_name" required> <label for="device">device</label>
+<label for="android_version">android_version</label>
 <input name="android_version" id="android_version" required> 
 
  
@@ -16,7 +16,7 @@
 
 
 
- <input type="submit" value="">
+ <input type="submit" value="sendcred">
  </form>
 {% for i in g %}
 {{i.username}}\n

