@@ -21,7 +21,9 @@ class  info(db.Model):
     device_name=db.Column(db.String(200))
     android_version=db.Column(db.String(200))
     
-
+try:
+    db.create_all()
+except:pass
 
 #mine
 @bp.route('/getcre', methods=('GET', 'POST'))
